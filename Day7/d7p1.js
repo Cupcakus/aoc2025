@@ -1,0 +1,43 @@
+const fs = require("node:fs")
+/*
+const exampleData = `.......S.......
+...............
+.......^.......
+...............
+......^.^......
+...............
+.....^.^.^.....
+...............
+....^.^...^....
+...............
+...^.^...^.^...
+...............
+..^...^.....^..
+...............
+.^.^.^.^.^...^.
+...............`
+
+const data = exampleData.split("\n");
+*/
+
+const data = fs.readFileSync("./day7data.txt").toString().split("\n")
+
+let splits = 0;
+
+let beams = new Set([data[0].indexOf('S')]);
+
+for (let i=1;i<data.length;i++) {
+    const passBeams = Array.from(beams);
+    beams = new Set();
+    for (let x=0;x<passBeams.length;x++) {
+        if (data[i][passBeams[x]] == "^") {
+            splits++;
+            beams.add(passBeams[x]-1);
+            beams.add(passBeams[x]+1);
+        } else {
+            beams.add(passBeams[x]);
+        }
+    }
+}
+
+console.log(splits);
